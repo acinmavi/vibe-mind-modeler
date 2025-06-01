@@ -61,7 +61,7 @@ const ModelApplyForm: React.FC<ModelApplyFormProps> = ({ template }) => {
     }
   };
 
-  const handleSave = () => {
+  const handleSave = async () => {
     setIsSaving(true);
     setError('');
 
@@ -72,13 +72,11 @@ const ModelApplyForm: React.FC<ModelApplyFormProps> = ({ template }) => {
         title,
         responses
       };
-      
-      addUserModel(userModel);
-      
+      await addUserModel(userModel);
       // Navigate to the user models page
       navigate('/dashboard');
     } catch (err) {
-      setError('An error occurred while saving. Please try again.');
+      setError(err instanceof Error ? err.message : 'An error occurred while saving. Please try again.');
     } finally {
       setIsSaving(false);
     }

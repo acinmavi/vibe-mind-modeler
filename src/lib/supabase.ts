@@ -26,7 +26,7 @@ export type Tables = {
     description: string;
     input_type: 'text' | 'textarea' | 'multiple-choice' | 'scale';
     placeholder?: string;
-    order: number;
+    step_order: number;
     created_at: string;
   };
   user_models: {

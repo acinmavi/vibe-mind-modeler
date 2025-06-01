@@ -1,5 +1,5 @@
 import React, { createContext, useState, useContext, useEffect } from 'react';
-import { v4 as uuidv4 } from 'uuid';
+import { supabase } from '../lib/supabase';
 import { User, AuthContextType } from '../types';
 
 // Create context
@@ -28,9 +28,6 @@ const storeUser = (user: User | null) => {
   }
 };
 
-// Mock user database (replace with actual backend in production)
-const MOCK_USERS: Record<string, { id: string; email: string; password: string; name?: string }> = {};
-
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [user, setUser] = useState<User | null>(() => getStoredUser());
   const [loading, setLoading] = useState(false);
@@ -44,23 +41,13 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const login = async (email: string, password: string) => {
     setLoading(true);
     setError(null);
-    
     try {
-      // Simulate API call
-      await new Promise(resolve => setTimeout(resolve, 800));
-      
-      const userRecord = Object.values(MOCK_USERS).find(u => u.email === email);
-      
-      if (!userRecord) {
-        throw new Error('User not found');
+      // Supabase sign in
+      const { data, error } = await supabase.auth.signInWithPassword({ email, password });
+      if (error || !data.user) {
+        throw new Error(error?.message || 'Login failed');
       }
-      
-      if (userRecord.password !== password) {
-        throw new Error('Invalid password');
-      }
-      
-      const { password: _, ...userWithoutPassword } = userRecord;
-      setUser(userWithoutPassword);
+      setUser({ id: data.user.id, email: data.user.email! });
     } catch (err) {
       setError(err instanceof Error ? err.message : 'An unknown error occurred');
       throw err;
@@ -72,21 +59,13 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const signup = async (email: string, password: string, name?: string) => {
     setLoading(true);
     setError(null);
-    
     try {
-      // Simulate API call
-      await new Promise(resolve => setTimeout(resolve, 800));
-      
-      if (Object.values(MOCK_USERS).some(u => u.email === email)) {
-        throw new Error('Email already in use');
+      // Supabase sign up
+      const { data, error } = await supabase.auth.signUp({ email, password });
+      if (error || !data.user) {
+        throw new Error(error?.message || 'Signup failed');
       }
-      
-      const id = uuidv4();
-      const newUser = { id, email, password, name };
-      MOCK_USERS[id] = newUser;
-      
-      const { password: _, ...userWithoutPassword } = newUser;
-      setUser(userWithoutPassword);
+      setUser({ id: data.user.id, email: data.user.email!, name });
     } catch (err) {
       setError(err instanceof Error ? err.message : 'An unknown error occurred');
       throw err;
@@ -95,7 +74,8 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     }
   };
 
-  const logout = () => {
+  const logout = async () => {
+    await supabase.auth.signOut();
     setUser(null);
   };
 
