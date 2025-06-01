@@ -1,0 +1,167 @@
+# 🧠 Simplified MVP PRD – "MindModeler"
+
+## 1. Product Overview
+
+* **Platform:** Responsive Web (Desktop & Mobile)
+* **Target Users:** Students, working professionals, and self-learners aiming to improve decision-making, problem-solving, and creative thinking
+* **Core Objective:**
+  Help users apply proven mental models to their real-world situations and manage their personal thinking toolkit.
+
+---
+
+## 2. MVP Core Features
+
+### 1. 🔐 User Registration & Login
+
+* **Purpose:** Allow users to access and manage personal data
+* **Features:**
+
+  * Sign up with email and password
+  * Log in / log out
+  * Basic authentication
+  * (Optional) Password recovery
+
+---
+
+### 2. 📚 Model Template List (10 Mental Models)
+
+* **Purpose:** Allow users to browse and select from 10 thinking models
+* **Features:**
+
+  * List of all models with:
+
+    * Name
+    * Icon or visual
+    * Short description
+    * View Details (optional)
+    * "Use this Model" button → leads to personal application
+
+#### 📘 Included Thinking Models:
+
+1. **5 WHYs Model**
+
+   * Purpose: Identify root cause of a problem
+   * Method: Ask “Why?” five times in succession
+   * Example: Printer jam → warped paper → improper storage → damp place → no cabinet → no budget → **Root cause: no investment plan**
+
+2. **SWOT Analysis**
+
+   * Purpose: Evaluate options/plans
+   * Example: Bubble tea shop
+
+     * Strengths: Investment, creativity
+     * Weaknesses: No experience
+     * Opportunities: Student market
+     * Threats: Competition, rising costs
+
+3. **Eisenhower Matrix**
+
+   * Purpose: Prioritize tasks by urgency & importance
+   * Example:
+
+     * Report → Urgent & Important → Do now
+     * Social media → Not Urgent & Not Important → Skip
+
+4. **Problem Tree**
+
+   * Purpose: Visualize causes and consequences
+   * Example:
+
+     * Causes: Lack of motivation, dry curriculum
+     * Effects: Poor grades, low confidence
+
+5. **SMART Goals**
+
+   * Purpose: Set clear, achievable goals
+   * Example:
+
+     * Goal: IELTS 6.5 in 90 days
+     * Measurable, Time-bound, Relevant, Achievable
+
+6. **PDCA Cycle**
+
+   * Purpose: Continuous improvement
+   * Example: Improve social media posts
+
+     * Plan → Post 3x/week
+     * Do → Share content
+     * Check → Review engagement
+     * Act → Adjust content
+
+7. **SCAMPER**
+
+   * Purpose: Spark creativity & product improvement
+   * Example: Coffee cup
+
+     * Substitute, Combine, Adapt, Modify, Put to another use, Eliminate, Reverse
+
+8. **Decision Matrix**
+
+   * Purpose: Compare options based on weighted criteria
+   * Example: Choosing between 3 English centers
+
+     * Weight × Score → Total points → Best option
+
+9. **Ladder of Inference**
+
+   * Purpose: Avoid faulty assumptions
+   * Example: Boss frowns → You assume they’re mad → Actually, they’re just tired
+
+10. **PEE Model (Point – Evidence – Explanation)**
+
+* Purpose: Strengthen arguments in writing/speaking
+* Example:
+
+  * Point: Reduce theory in school
+  * Evidence: 60% say curriculum too theoretical
+  * Explanation: Less engagement, harder to apply
+
+---
+
+### 3. 🧠 Apply Model to a Personal Situation
+
+* **Purpose:** Allow users to use a selected model step-by-step on a real problem
+* **Features:**
+
+  * Input field for user’s challenge/situation
+  * Dynamic step-by-step flow based on model type
+  * Summary of user responses and conclusions
+  * Save button for storing the result in their account
+
+---
+
+### 4. 👤 User Account & Model Management
+
+* **Purpose:** Let users manage all their created thinking models
+* **Features:**
+
+  * View list of saved models
+
+    * Includes: model type, custom title, date created
+  * Search and filter by model type
+  * Summary dashboard with:
+
+    * Total models created
+    * Breakdown by model type
+  * Edit, duplicate, or delete saved models
+
+---
+
+## 3. Suggested Navigation Structure (for MVP)
+
+* [ ] Sign Up / Login
+* [ ] Model Library (List of 10 mental models)
+* [ ] Apply Model (Interactive form based on model)
+* [ ] My Models (User library)
+* [ ] Dashboard / Summary (Statistics by model type)
+
+---
+
+## 4. Out of Scope for MVP
+
+* No full educational content or tutorials
+* No AI-based suggestions or intelligent feedback
+* No collaborative features or scenario-based exercises
+* No export to PDF/image (yet)
+
+---
