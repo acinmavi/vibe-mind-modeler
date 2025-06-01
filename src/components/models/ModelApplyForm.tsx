@@ -36,7 +36,7 @@ const ModelApplyForm: React.FC<ModelApplyFormProps> = ({ template }) => {
     
     setError('');
     
-    if (currentStep < template.steps.length) {
+    if (currentStep < template.steps.length + 1) {
       setCurrentStep(prev => prev + 1);
     }
   };
@@ -62,16 +62,9 @@ const ModelApplyForm: React.FC<ModelApplyFormProps> = ({ template }) => {
   };
 
   const handleSave = () => {
-    // Validate current step
-    const currentResponse = responses[currentStep - 1];
-    if (!currentResponse.response.trim()) {
-      setError('Please complete this step before saving');
-      return;
-    }
-    
     setIsSaving(true);
     setError('');
-    
+
     try {
       // Create a new user model
       const userModel: Omit<UserModel, 'id' | 'createdAt' | 'updatedAt'> = {
@@ -92,8 +85,14 @@ const ModelApplyForm: React.FC<ModelApplyFormProps> = ({ template }) => {
   };
 
   // Title input is shown at step 0, then template steps
-  const displayStep = currentStep === 0 ? null : template.steps[currentStep - 1];
-  const isLastStep = currentStep === template.steps.length;
+  let displayStep = null;
+  if (currentStep === 0) {
+    displayStep = null;
+  } else if (currentStep > 0 && currentStep <= template.steps.length) {
+    displayStep = template.steps[currentStep - 1];
+  }
+  const isLastInputStep = currentStep === template.steps.length;
+  const isReviewStep = currentStep === template.steps.length + 1;
 
   return (
     <div className="bg-white rounded-lg shadow-lg p-6 max-w-2xl mx-auto">
@@ -106,7 +105,7 @@ const ModelApplyForm: React.FC<ModelApplyFormProps> = ({ template }) => {
           />
         </div>
         <div className="mt-2 text-xs text-gray-500">
-          Step {currentStep + 1} of {template.steps.length + 1}
+          Step {Math.min(currentStep + 1, template.steps.length + 1)} of {template.steps.length + 1}
         </div>
       </div>
 
@@ -126,7 +125,7 @@ const ModelApplyForm: React.FC<ModelApplyFormProps> = ({ template }) => {
               className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
             />
           </div>
-        ) : isLastStep ? (
+        ) : isReviewStep ? (
           <div>
             <div className="flex items-center mb-4">
               <Check className="h-8 w-8 text-green-500" />
@@ -200,7 +199,7 @@ const ModelApplyForm: React.FC<ModelApplyFormProps> = ({ template }) => {
           Previous
         </button>
         
-        {isLastStep ? (
+        {isReviewStep ? (
           <button
             onClick={handleSave}
             disabled={isSaving}
@@ -213,7 +212,7 @@ const ModelApplyForm: React.FC<ModelApplyFormProps> = ({ template }) => {
           </button>
         ) : (
           <button
-            onClick={handleNext}
+            onClick={() => setCurrentStep((prev) => prev + 1)}
             className="flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
           >
             Next
