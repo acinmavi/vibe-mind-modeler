@@ -390,5 +390,49 @@ export const modelTemplates: ModelTemplate[] = [
         placeholder: "Explain the connection"
       }
     ]
+  },
+  {
+    id: uuidv4(),
+    name: "Decision Matrix",
+    description: "Choose between multiple options by scoring them against weighted criteria.",
+    icon: "sliders",
+    category: "Decision Making",
+    steps: [
+      {
+        id: uuidv4(),
+        title: "List Options",
+        description: "List all the options you are considering (comma separated).",
+        inputType: "textarea",
+        placeholder: "e.g., Center A, Center B, Center C"
+      },
+      {
+        id: uuidv4(),
+        title: "List Criteria",
+        description: "List the criteria for your decision (comma separated).",
+        inputType: "textarea",
+        placeholder: "e.g., Reasonable cost, Good teachers, Close to home"
+      },
+      {
+        id: uuidv4(),
+        title: "Assign Weights",
+        description: "Assign a weight (importance) to each criterion (comma separated, same order as above).",
+        inputType: "textarea",
+        placeholder: "e.g., 3, 2, 1"
+      },
+      {
+        id: uuidv4(),
+        title: "Score Each Option",
+        description: "For each option, enter the score for each criterion (one option per line, scores comma separated, same order as criteria).\nExample:\n8, 8, 8 (for Center A)\n7, 7, 7 (for Center B)\n6, 6, 6 (for Center C)",
+        inputType: "textarea",
+        placeholder: "e.g., 8,8,8\n7,7,7\n6,6,6"
+      },
+      {
+        id: uuidv4(),
+        title: "Summary & Insights",
+        description: "Review your matrix and see which option scores highest. Consider if the result matches your intuition.",
+        inputType: "textarea",
+        placeholder: "Write your insights or final decision here."
+      }
+    ]
   }
 ];
