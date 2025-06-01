@@ -1,3 +1,9 @@
+-- Drop tables if they exist (in correct dependency order)
+DROP TABLE IF EXISTS user_responses CASCADE;
+DROP TABLE IF EXISTS user_models CASCADE;
+DROP TABLE IF EXISTS model_steps CASCADE;
+DROP TABLE IF EXISTS mental_models CASCADE;
+
 -- Create mental_models table
 CREATE TABLE mental_models (
     id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
@@ -16,7 +22,7 @@ CREATE TABLE model_steps (
     description TEXT NOT NULL,
     input_type VARCHAR(20) NOT NULL CHECK (input_type IN ('text', 'textarea', 'multiple-choice', 'scale')),
     placeholder TEXT,
-    order INTEGER NOT NULL,
+    step_order INTEGER NOT NULL,
     created_at TIMESTAMP WITH TIME ZONE DEFAULT TIMEZONE('utc', NOW())
 );
 
@@ -54,7 +60,7 @@ INSERT INTO mental_models (name, description, icon, category) VALUES
 ('PEE Model', 'Structure arguments with Point, Evidence, and Explanation.', 'list', 'Communication');
 
 -- Insert steps for each model (example for 5 WHYs)
-INSERT INTO model_steps (model_id, title, description, input_type, placeholder, order) 
+INSERT INTO model_steps (model_id, title, description, input_type, placeholder, step_order) 
 SELECT 
     id,
     'Define the Problem',
@@ -65,14 +71,14 @@ SELECT
 FROM mental_models WHERE name = '5 WHYs Analysis';
 
 -- Add more steps for 5 WHYs
-INSERT INTO model_steps (model_id, title, description, input_type, placeholder, order)
+INSERT INTO model_steps (model_id, title, description, input_type, placeholder, step_order)
 SELECT 
-    id,
-    title,
-    description,
+    mental_models.id,
+    steps.title,
+    steps.description,
     'textarea',
-    placeholder,
-    order_num
+    steps.placeholder,
+    steps.order_num
 FROM mental_models
 CROSS JOIN (
     VALUES 
@@ -82,7 +88,7 @@ CROSS JOIN (
         ('Fourth Why', 'Continue asking why to get closer to the root cause.', 'Why does that happen?', 5),
         ('Fifth Why', 'This should get you to the root cause.', 'Why does that happen?', 6)
 ) AS steps(title, description, placeholder, order_num)
-WHERE name = '5 WHYs Analysis';
+WHERE mental_models.name = '5 WHYs Analysis';
 
 -- Create indexes for better performance
 CREATE INDEX idx_mental_models_category ON mental_models(category);
